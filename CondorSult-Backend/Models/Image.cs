@@ -7,7 +7,7 @@
 
 
 
-        public int AricleID { get; set; }
+        public int ArticleID { get; set; }
         public Article Article { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using CondorSult_Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CondorSult_Backend.Migrations
 {
     [DbContext(typeof(CondorSultDbContext))]
-    partial class CondorSultDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230825101848_Fifth-Migration")]
+    partial class FifthMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,7 +50,7 @@ namespace CondorSult_Backend.Migrations
 
                     b.HasIndex("CategorieID");
 
-                    b.ToTable("Articles", (string)null);
+                    b.ToTable("Articles");
                 });
 
             modelBuilder.Entity("CondorSult_Backend.Models.Categorie", b =>
@@ -66,7 +69,7 @@ namespace CondorSult_Backend.Migrations
 
                     b.HasKey("CategorieId");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("CondorSult_Backend.Models.Commentaire", b =>
@@ -94,7 +97,7 @@ namespace CondorSult_Backend.Migrations
 
                     b.HasIndex("UtilisateurId");
 
-                    b.ToTable("Commentaires", (string)null);
+                    b.ToTable("Commentaires");
                 });
 
             modelBuilder.Entity("CondorSult_Backend.Models.Image", b =>
@@ -114,7 +117,7 @@ namespace CondorSult_Backend.Migrations
 
                     b.HasIndex("ArticleID");
 
-                    b.ToTable("Images", (string)null);
+                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("CondorSult_Backend.Models.Utilisateur", b =>
@@ -173,7 +176,7 @@ namespace CondorSult_Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Utilisateurs", (string)null);
+                    b.ToTable("Utilisateurs");
                 });
 
             modelBuilder.Entity("CondorSult_Backend.Models.Variante", b =>
@@ -207,7 +210,7 @@ namespace CondorSult_Backend.Migrations
 
                     b.HasIndex("ArticleID");
 
-                    b.ToTable("Variantes", (string)null);
+                    b.ToTable("Variantes");
                 });
 
             modelBuilder.Entity("CondorSult_Backend.Models.Article", b =>
