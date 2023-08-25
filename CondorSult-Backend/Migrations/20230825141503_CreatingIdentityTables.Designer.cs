@@ -3,6 +3,7 @@ using System;
 using CondorSult_Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CondorSult_Backend.Migrations
 {
     [DbContext(typeof(CondorSultDbContext))]
-    partial class CondorSultDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230825141503_CreatingIdentityTables")]
+    partial class CreatingIdentityTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -269,22 +272,6 @@ namespace CondorSult_Backend.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "8a43a855-cac2-4472-b473-07e4ffee0f48",
-                            ConcurrencyStamp = "4bcfcef4-9385-4bbc-928f-cc2e7b3b583a",
-                            Name = "Utilisateur",
-                            NormalizedName = "UTILISATEUR"
-                        },
-                        new
-                        {
-                            Id = "37c856dc-d037-4364-a77b-ed6309a6c7bb",
-                            ConcurrencyStamp = "f3b6807c-178c-48d4-8fa5-7cd3361ac118",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

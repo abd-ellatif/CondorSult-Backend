@@ -9,7 +9,7 @@ namespace CondorSult_Backend.Models
         public int AnneeNaissance { get; set; }
 
 
-        public ICollection<Commentaire> Commentaires { get; set;}
+        public ICollection<Commentaire>? Commentaires { get; set;}
         
     }
 }

@@ -14,7 +14,14 @@ builder.Services.AddDbContext<CondorSultDbContext>(options =>
 
 builder.Services.ConfigureRepositoryManager();
 
+builder.Services.AddAuthentication();
+
+builder.Services.ConfigureIdentity();
+
+builder.Services.ConfigureJWT(builder.Configuration);
+
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -30,6 +37,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

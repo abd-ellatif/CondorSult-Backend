@@ -62,5 +62,20 @@ namespace CondorSult_Backend.Repositories
     {
         public CommentaireRepository(CondorSultDbContext Context) : base(Context)
         { }
+        public void AddCommentaire(Commentaire commentaire)
+        {
+            Add(commentaire);
+        }
+    }
+
+    public class PointVenteRepository : RepositoryBase<PointVente>, IPointVenteRepository
+    {
+        public PointVenteRepository(CondorSultDbContext Context) : base(Context)
+        { }
+
+        public IEnumerable<PointVente> GetAllPointsVente()
+        {
+           return GetAll().ToList();
+        }
     }
 }

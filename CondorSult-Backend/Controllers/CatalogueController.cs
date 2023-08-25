@@ -10,6 +10,8 @@ using CondorSult_Backend.Models;
 using CondorSult_Backend.Repositories;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
+using Newtonsoft.Json.Linq;
 
 namespace CondorSult_Backend.Controllers
 {
@@ -81,6 +83,7 @@ namespace CondorSult_Backend.Controllers
         }
 
         [HttpPost("AjouterArticle")]
+        [Authorize(Roles="Admin")]
         public async Task<ActionResult> AddArticle(DTOs.CompositeArticleDto compositeArticleDto)
         {
             if (compositeArticleDto == null)
@@ -136,6 +139,38 @@ namespace CondorSult_Backend.Controllers
                 return Problem("Error"+exception.Message);
             }
             
+        }
+
+        [HttpPost("AjouterCommentaire")]
+        [Authorize(Roles ="Utilisateur")]
+        public async Task<IActionResult> AddComment(DTOs.CommentaireDto commentaireDto)
+        {
+            var commentaire = new Commentaire
+            {
+                Contenu = commentaireDto.Contenu,
+                UserID = commentaireDto.UserID,
+                ArticleID = commentaireDto.ArticleID
+            };
+            try
+            {
+                _repositoryManager.Commentaire.AddCommentaire(commentaire);
+                _repositoryManager.SaveChanges();
+                return  Ok(commentaire.ToString());
+            }catch(Exception ex)
+            {
+                return Problem("Error happened "+ex.Message);
+            }
+            
+        }
+
+        [HttpGet("PointsVente")]
+        public async Task<ActionResult<IEnumerable<PointVente>>> GetAllPointsVente()
+        {
+            if (_repositoryManager.PointVente == null)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(_repositoryManager.PointVente.GetAllPointsVente());
         }
 
     }

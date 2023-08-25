@@ -1,4 +1,8 @@
 ﻿using CondorSult_Backend.Data;
+using CondorSult_Backend.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace CondorSult_Backend.Repositories
 {
@@ -11,8 +15,11 @@ namespace CondorSult_Backend.Repositories
         private readonly Lazy<ICategorieRepository> _categorieRepository;
         private readonly Lazy<IImageRepository> _imageRepository;
         private readonly Lazy<ICommentaireRepository> _commentaireRepository;
+        private readonly Lazy<IPointVenteRepository> _pointVenteRepository;
+        private readonly Lazy<IAuthentication> _authentication;
 
-        public RepositoryManager(CondorSultDbContext context)
+
+        public RepositoryManager(CondorSultDbContext context, UserManager<Utilisateur> userManager,IConfiguration configuration)
         {
             _context = context;
             _utilisateurRepository = new Lazy<IUtilisateurRepository>(() => new
@@ -33,6 +40,10 @@ namespace CondorSult_Backend.Repositories
             _commentaireRepository = new Lazy<ICommentaireRepository>(() => new
             CommentaireRepository(context));
 
+            _pointVenteRepository = new Lazy<IPointVenteRepository>(() => new
+            PointVenteRepository(context));
+
+            _authentication = new Lazy<IAuthentication>(() => new Authentication(userManager, configuration));
         }
         public IUtilisateurRepository Utilisateur => _utilisateurRepository.Value;
         public IArticleRepository Article => _articleRepository.Value;
@@ -40,6 +51,9 @@ namespace CondorSult_Backend.Repositories
         public ICategorieRepository Categorie => _categorieRepository.Value;
         public IImageRepository Image => _imageRepository.Value;
         public ICommentaireRepository Commentaire => _commentaireRepository.Value;
+        public IPointVenteRepository PointVente => _pointVenteRepository.Value;
+        public IAuthentication Authentication => _authentication.Value;
+
         public void SaveChanges()
         {
             _context.SaveChanges();

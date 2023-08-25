@@ -1,4 +1,6 @@
-﻿namespace CondorSult_Backend.Repositories
+﻿
+
+namespace CondorSult_Backend.Repositories
 {
     public interface IRepositoryManager
     {
@@ -9,6 +11,8 @@
         ICategorieRepository Categorie { get; }
         IImageRepository Image { get; }
         ICommentaireRepository Commentaire { get; }
+        IPointVenteRepository PointVente { get; }
+        IAuthentication Authentication { get; }
 
 
         void SaveChanges();

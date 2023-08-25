@@ -32,6 +32,10 @@ namespace CondorSult_Backend.Repositories
 
     public interface ICommentaireRepository
     {
-
+        public void AddCommentaire(Commentaire commentaire);
+    }
+    public interface IPointVenteRepository
+    {
+        public IEnumerable<PointVente> GetAllPointsVente();
     }
 }
