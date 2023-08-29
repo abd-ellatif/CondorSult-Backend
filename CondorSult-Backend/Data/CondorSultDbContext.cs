@@ -26,5 +26,6 @@ namespace CondorSult_Backend.Data
         public DbSet<Utilisateur> Utilisateurs { get; set; }
         public DbSet<Commentaire> Commentaires { get; set; }
         public DbSet<PointVente> PointsVente { get; set; }
+        public DbSet<Blog> Blog { get; set; }
     }
 }

@@ -40,13 +40,19 @@ namespace CondorSult_Backend.Repositories
             return result;
         }
 
-        public async Task<bool> ValidateUser(DTOs.UserAuthDto userAuth)
+        public async Task<DTOs.UserToSend?> ValidateUser(DTOs.UserAuthDto userAuth)
         {
             _utilisateur = await _userManager.FindByNameAsync(userAuth.UserName);
             var result = (_utilisateur != null && await _userManager.CheckPasswordAsync(_utilisateur,userAuth.Password));
-           // if (!result)
-                //_logger.LogWarn($"{nameof(ValidateUser)}: Authentication failed. Wrong username or password.");
-            return result;
+            // if (!result)
+            //_logger.LogWarn($"{nameof(ValidateUser)}: Authentication failed. Wrong username or password.");
+            
+            var user = new DTOs.UserToSend
+            {
+                userId = _utilisateur.Id, userName = _utilisateur.UserName, token = "",
+                roles = await _userManager.GetRolesAsync(_utilisateur)
+            };
+            return result ? user : null;
         }
 
         public async Task<string> CreateToken()
@@ -57,9 +63,9 @@ namespace CondorSult_Backend.Repositories
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
 
-        private SigningCredentials GetSigningCredentials()
+        private static SigningCredentials GetSigningCredentials()
         {
-            var key = Encoding.UTF8.GetBytes("SUPERDUPERSECRETKEYSUPERDUPERSECRETKEY"/*Environment.GetEnvironmentVariable("SECRET")*/);
+            var key = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRET_KEY"));
             var secret = new SymmetricSecurityKey(key);
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }

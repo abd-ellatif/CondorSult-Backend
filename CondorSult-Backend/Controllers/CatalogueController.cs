@@ -52,16 +52,7 @@ namespace CondorSult_Backend.Controllers
                 Categorie = a.Categorie,
                 Variantes = a.Variantes,
                 Images = a.Images,
-                Commentaires = a.Commentaires.Select(c => new Commentaire
-                {
-                    CommentaireID = c.CommentaireID,
-                    Contenu = c.Contenu,
-                    Utilisateur = new Utilisateur
-                    {
-                        Id = c.Utilisateur.Id,
-                        UserName = c.Utilisateur.UserName
-                    }
-                }).ToList()
+                Commentaires = a.Commentaires
 
             });
 
@@ -141,6 +132,37 @@ namespace CondorSult_Backend.Controllers
             
         }
 
+
+        [HttpPost("AjouterCategorie")]
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> AddCategorie(DTOs.CategorieDto categorieDto)
+        {
+            if(categorieDto == null)
+            {
+                return BadRequest("Category body missing");
+            }
+
+            var categorie = new Categorie
+            { 
+                Description = categorieDto.Description,
+                Designation = categorieDto.Designation,
+                visible = categorieDto.Visible
+            };
+
+            try
+            {
+                _repositoryManager.Categorie.AddCategory(categorie);
+                _repositoryManager.SaveChanges();
+                return Ok("Category Added");
+            }
+            catch(Exception ex)
+            {
+                return Problem("Error" + ex.Message);
+            }
+        }
+
+
+
         [HttpPost("AjouterCommentaire")]
         [Authorize(Roles ="Utilisateur")]
         public async Task<IActionResult> AddComment(DTOs.CommentaireDto commentaireDto)
@@ -150,7 +172,7 @@ namespace CondorSult_Backend.Controllers
                 Contenu = commentaireDto.Contenu,
                 UserID = commentaireDto.UserID,
                 ArticleID = commentaireDto.ArticleID
-            };
+            }; 
             try
             {
                 _repositoryManager.Commentaire.AddCommentaire(commentaire);
@@ -161,7 +183,7 @@ namespace CondorSult_Backend.Controllers
                 return Problem("Error happened "+ex.Message);
             }
             
-        }
+        }   
 
         [HttpGet("PointsVente")]
         public async Task<ActionResult<IEnumerable<PointVente>>> GetAllPointsVente()
@@ -171,6 +193,16 @@ namespace CondorSult_Backend.Controllers
                 return BadRequest(ModelState);
             }
             return Ok(_repositoryManager.PointVente.GetAllPointsVente());
+        }
+
+        [HttpGet("UserById/{id}")]
+        public async Task<ActionResult<string>> GetUserById(string id)
+        {
+            if (_repositoryManager.Utilisateur == null)
+            {
+                return BadRequest(ModelState);
+            }
+            return Ok(_repositoryManager.Utilisateur.getUserById(id).UserName);
         }
 
     }

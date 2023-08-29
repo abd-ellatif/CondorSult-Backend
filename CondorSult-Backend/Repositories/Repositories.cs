@@ -5,9 +5,20 @@ using Microsoft.EntityFrameworkCore;
 namespace CondorSult_Backend.Repositories
 {
     public class UtilisateurRepository : RepositoryBase<Utilisateur>, IUtilisateurRepository
+
     {
+        private readonly DbContext _dbContext;
+        private readonly DbSet<Utilisateur> _dbSet;
         public  UtilisateurRepository(CondorSultDbContext Context): base(Context)
-        { }
+        {
+            _dbContext = Context ?? throw new ArgumentNullException(nameof(Context));
+            _dbSet = _dbContext.Set<Utilisateur>();
+        }
+
+        public Utilisateur getUserById(string id)
+        {
+            return _dbSet.Find(id);
+        }
     }
 
     public class ArticleRepository : RepositoryBase<Article>, IArticleRepository
@@ -42,6 +53,12 @@ namespace CondorSult_Backend.Repositories
     {
         public CategorieRepository(CondorSultDbContext Context) : base(Context)
         { }
+
+        public void AddCategory(Categorie categorie)
+        {
+            Add(categorie);
+        }
+
         public IEnumerable<Categorie> GetAllCategories()
         {
             return GetAll().ToList();
@@ -66,7 +83,7 @@ namespace CondorSult_Backend.Repositories
         {
             Add(commentaire);
         }
-    }
+    } 
 
     public class PointVenteRepository : RepositoryBase<PointVente>, IPointVenteRepository
     {
@@ -78,4 +95,30 @@ namespace CondorSult_Backend.Repositories
            return GetAll().ToList();
         }
     }
+
+    public class BlogRepository : RepositoryBase<Blog>, IBlogRepository
+    {
+        public BlogRepository(CondorSultDbContext Context) : base(Context)
+        { }
+
+        public void AddBlog(Blog blog)
+        {
+            Add(blog);
+        } 
+
+        public IEnumerable<Blog> GetAllBlogs()
+        {
+            return GetAll().ToList();
+        }
+
+        public void RemoveBlog(int id)
+        {
+            var blog = GetById(id);
+            if (blog != null)
+            {
+                Delete(blog);
+            } 
+        }
+    }
+
 }

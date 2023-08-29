@@ -3,6 +3,7 @@ using System;
 using CondorSult_Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CondorSult_Backend.Migrations
 {
     [DbContext(typeof(CondorSultDbContext))]
-    partial class CondorSultDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230829165414_Changed-Commentaire-3")]
+    partial class ChangedCommentaire3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,32 +104,6 @@ namespace CondorSult_Backend.Migrations
                     b.HasKey("CategorieId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("CondorSult_Backend.Models.Commentaire", b =>
-                {
-                    b.Property<int>("CommentaireID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("ArticleID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Contenu")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("UserID")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("CommentaireID");
-
-                    b.HasIndex("ArticleID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("Commentaires");
                 });
 
             modelBuilder.Entity("CondorSult_Backend.Models.Image", b =>
@@ -304,15 +281,15 @@ namespace CondorSult_Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6797c582-c50a-427e-bd4c-3aa350ce5223",
-                            ConcurrencyStamp = "6f9f8747-0bdc-413a-aee2-3b6ef5cac53c",
+                            Id = "8175c8bd-ef4f-431d-8859-69f2bffa0544",
+                            ConcurrencyStamp = "6294bec2-7783-4d6a-9f5d-030a42ffb93a",
                             Name = "Utilisateur",
                             NormalizedName = "UTILISATEUR"
                         },
                         new
                         {
-                            Id = "01bcf63d-55e0-4dfd-97ed-0f9e166d6e93",
-                            ConcurrencyStamp = "dc30757c-3abd-4449-b58c-2e78735482a3",
+                            Id = "7464a5a9-68c1-4ff7-80f8-ce3a20906960",
+                            ConcurrencyStamp = "9a351399-aae6-416d-a19a-2926c0d1de13",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -431,25 +408,6 @@ namespace CondorSult_Backend.Migrations
                     b.Navigation("Categorie");
                 });
 
-            modelBuilder.Entity("CondorSult_Backend.Models.Commentaire", b =>
-                {
-                    b.HasOne("CondorSult_Backend.Models.Article", "Article")
-                        .WithMany("Commentaires")
-                        .HasForeignKey("ArticleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CondorSult_Backend.Models.Utilisateur", "User")
-                        .WithMany("Commentaires")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Article");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("CondorSult_Backend.Models.Image", b =>
                 {
                     b.HasOne("CondorSult_Backend.Models.Article", "Article")
@@ -525,16 +483,9 @@ namespace CondorSult_Backend.Migrations
 
             modelBuilder.Entity("CondorSult_Backend.Models.Article", b =>
                 {
-                    b.Navigation("Commentaires");
-
                     b.Navigation("Images");
 
                     b.Navigation("Variantes");
-                });
-
-            modelBuilder.Entity("CondorSult_Backend.Models.Utilisateur", b =>
-                {
-                    b.Navigation("Commentaires");
                 });
 #pragma warning restore 612, 618
         }

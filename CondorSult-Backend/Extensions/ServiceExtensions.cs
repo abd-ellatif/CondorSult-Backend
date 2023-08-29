@@ -2,14 +2,19 @@
 using CondorSult_Backend.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.DependencyInjection;
+using System.Xml.Serialization;
+using CondorSult_Backend.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace CondorSult_Backend.Extensions
 {
     public static class ServiceExtensions
     {
+
+
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
             services.AddScoped<IRepositoryManager, RepositoryManager>();
 
@@ -33,8 +38,7 @@ namespace CondorSult_Backend.Extensions
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
             var jwtSettings = configuration.GetSection("JwtSettings");
-            var secretKey = "SUPERDUPERSECRETKEYSUPERDUPERSECRETKEY";
-                //Environment.GetEnvironmentVariable("SECRET");
+            var secretKey = Environment.GetEnvironmentVariable("SECRET_KEY");
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -55,7 +59,27 @@ namespace CondorSult_Backend.Extensions
                 };
             });
         }
-    }
+
+
+
+        // ...
+
+        public static void ConfigureServices(this IServiceCollection services,IConfiguration configuration)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder =>
+                    {
+                        builder.WithOrigins("*")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
+
+        }
+          }
 
     
 }

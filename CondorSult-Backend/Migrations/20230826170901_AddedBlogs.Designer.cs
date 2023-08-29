@@ -3,6 +3,7 @@ using System;
 using CondorSult_Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CondorSult_Backend.Migrations
 {
     [DbContext(typeof(CondorSultDbContext))]
-    partial class CondorSultDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230826170901_AddedBlogs")]
+    partial class AddedBlogs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,15 +119,17 @@ namespace CondorSult_Backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("UserID")
-                        .IsRequired()
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UtilisateurId")
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("CommentaireID");
 
                     b.HasIndex("ArticleID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UtilisateurId");
 
                     b.ToTable("Commentaires");
                 });
@@ -181,6 +186,7 @@ namespace CondorSult_Backend.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Addresse")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("AnneeNaissance")
@@ -304,15 +310,15 @@ namespace CondorSult_Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6797c582-c50a-427e-bd4c-3aa350ce5223",
-                            ConcurrencyStamp = "6f9f8747-0bdc-413a-aee2-3b6ef5cac53c",
+                            Id = "3faa4286-972a-40db-8ad5-d6330f2ea503",
+                            ConcurrencyStamp = "014b340e-95b2-485c-85fd-3eaf1e648810",
                             Name = "Utilisateur",
                             NormalizedName = "UTILISATEUR"
                         },
                         new
                         {
-                            Id = "01bcf63d-55e0-4dfd-97ed-0f9e166d6e93",
-                            ConcurrencyStamp = "dc30757c-3abd-4449-b58c-2e78735482a3",
+                            Id = "764b0d05-1099-467f-9af4-1e9105a1dea7",
+                            ConcurrencyStamp = "afdf33d2-4f6f-4307-b01d-53d36514a66f",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -439,15 +445,13 @@ namespace CondorSult_Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CondorSult_Backend.Models.Utilisateur", "User")
+                    b.HasOne("CondorSult_Backend.Models.Utilisateur", "Utilisateur")
                         .WithMany("Commentaires")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UtilisateurId");
 
                     b.Navigation("Article");
 
-                    b.Navigation("User");
+                    b.Navigation("Utilisateur");
                 });
 
             modelBuilder.Entity("CondorSult_Backend.Models.Image", b =>

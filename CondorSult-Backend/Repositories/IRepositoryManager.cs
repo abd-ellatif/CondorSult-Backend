@@ -13,6 +13,7 @@ namespace CondorSult_Backend.Repositories
         ICommentaireRepository Commentaire { get; }
         IPointVenteRepository PointVente { get; }
         IAuthentication Authentication { get; }
+        IBlogRepository Blog { get; }
 
 
         void SaveChanges();

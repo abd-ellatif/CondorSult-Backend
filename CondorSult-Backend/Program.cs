@@ -10,14 +10,14 @@ builder.Services.AddDbContext<CondorSultDbContext>(options =>
 {
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 }
-    );
+                                                   );
 
 builder.Services.ConfigureRepositoryManager();
 
 builder.Services.AddAuthentication();
 
 builder.Services.ConfigureIdentity();
-
+builder.Services.ConfigureServices(builder.Configuration);
 builder.Services.ConfigureJWT(builder.Configuration);
 
 builder.Services.AddControllers();
@@ -36,6 +36,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseCors("AllowSpecificOrigin");
 
 app.UseAuthentication();
 app.UseAuthorization();

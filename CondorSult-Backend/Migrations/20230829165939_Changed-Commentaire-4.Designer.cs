@@ -3,6 +3,7 @@ using System;
 using CondorSult_Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CondorSult_Backend.Migrations
 {
     [DbContext(typeof(CondorSultDbContext))]
-    partial class CondorSultDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230829165939_Changed-Commentaire-4")]
+    partial class ChangedCommentaire4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -304,15 +307,15 @@ namespace CondorSult_Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6797c582-c50a-427e-bd4c-3aa350ce5223",
-                            ConcurrencyStamp = "6f9f8747-0bdc-413a-aee2-3b6ef5cac53c",
+                            Id = "e98b2694-4a2f-4923-98f4-1e587f81b170",
+                            ConcurrencyStamp = "da9bacd8-f117-408e-8cc8-45feb6304492",
                             Name = "Utilisateur",
                             NormalizedName = "UTILISATEUR"
                         },
                         new
                         {
-                            Id = "01bcf63d-55e0-4dfd-97ed-0f9e166d6e93",
-                            ConcurrencyStamp = "dc30757c-3abd-4449-b58c-2e78735482a3",
+                            Id = "253e7ddd-cf59-44d8-a337-b820b3312853",
+                            ConcurrencyStamp = "d50b307f-16df-497b-9cba-ea35b6678e7c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

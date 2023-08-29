@@ -23,7 +23,7 @@ namespace CondorSult_Backend.Controllers
             var result = await
             _repositoryManager.Authentication.RegisterUser(userRegister);
             if (!result.Succeeded)
-{
+            {
                 foreach (var error in result.Errors)
                 {
                     ModelState.TryAddModelError(error.Code, error.Description);
@@ -36,13 +36,14 @@ namespace CondorSult_Backend.Controllers
         [HttpPost("login")]
        // [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Authenticate(DTOs.UserAuthDto utilisateur)
-        {
-            if (!await _repositoryManager.Authentication.ValidateUser(utilisateur))
+       {
+           var user = await _repositoryManager.Authentication.ValidateUser(utilisateur);
+            if (user == null)
                 return Unauthorized();
-            return Ok(new
-            {
-                Token = await _repositoryManager.Authentication.CreateToken()
-            });
+            var token = await _repositoryManager.Authentication.CreateToken();
+            user.token = token;
+            return Ok(user);
+            
         }
 
     }

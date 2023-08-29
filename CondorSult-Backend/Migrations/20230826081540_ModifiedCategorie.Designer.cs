@@ -3,6 +3,7 @@ using System;
 using CondorSult_Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CondorSult_Backend.Migrations
 {
     [DbContext(typeof(CondorSultDbContext))]
-    partial class CondorSultDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230826081540_ModifiedCategorie")]
+    partial class ModifiedCategorie
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,37 +53,6 @@ namespace CondorSult_Backend.Migrations
                     b.ToTable("Articles");
                 });
 
-            modelBuilder.Entity("CondorSult_Backend.Models.Blog", b =>
-                {
-                    b.Property<int>("BlogId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Auteur")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Contenu")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("DatePublication")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Titre")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("BlogId");
-
-                    b.ToTable("Blog");
-                });
-
             modelBuilder.Entity("CondorSult_Backend.Models.Categorie", b =>
                 {
                     b.Property<int>("CategorieId")
@@ -116,15 +88,17 @@ namespace CondorSult_Backend.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("UserID")
-                        .IsRequired()
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UtilisateurId")
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("CommentaireID");
 
                     b.HasIndex("ArticleID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("UtilisateurId");
 
                     b.ToTable("Commentaires");
                 });
@@ -181,6 +155,7 @@ namespace CondorSult_Backend.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Addresse")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("AnneeNaissance")
@@ -304,15 +279,15 @@ namespace CondorSult_Backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "6797c582-c50a-427e-bd4c-3aa350ce5223",
-                            ConcurrencyStamp = "6f9f8747-0bdc-413a-aee2-3b6ef5cac53c",
+                            Id = "b3acdef3-60af-45c4-8597-e2d314c4809e",
+                            ConcurrencyStamp = "0063bbde-a18b-4df9-803b-c29695429b0f",
                             Name = "Utilisateur",
                             NormalizedName = "UTILISATEUR"
                         },
                         new
                         {
-                            Id = "01bcf63d-55e0-4dfd-97ed-0f9e166d6e93",
-                            ConcurrencyStamp = "dc30757c-3abd-4449-b58c-2e78735482a3",
+                            Id = "2f824f71-e32e-45b7-9475-cc964bcfa611",
+                            ConcurrencyStamp = "25b03e13-7a22-4d2b-922f-50bc88e513f9",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -439,15 +414,13 @@ namespace CondorSult_Backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CondorSult_Backend.Models.Utilisateur", "User")
+                    b.HasOne("CondorSult_Backend.Models.Utilisateur", "Utilisateur")
                         .WithMany("Commentaires")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UtilisateurId");
 
                     b.Navigation("Article");
 
-                    b.Navigation("User");
+                    b.Navigation("Utilisateur");
                 });
 
             modelBuilder.Entity("CondorSult_Backend.Models.Image", b =>

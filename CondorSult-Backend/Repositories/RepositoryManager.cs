@@ -16,7 +16,9 @@ namespace CondorSult_Backend.Repositories
         private readonly Lazy<IImageRepository> _imageRepository;
         private readonly Lazy<ICommentaireRepository> _commentaireRepository;
         private readonly Lazy<IPointVenteRepository> _pointVenteRepository;
+        private readonly Lazy<IBlogRepository> _blogRepository;
         private readonly Lazy<IAuthentication> _authentication;
+        
 
 
         public RepositoryManager(CondorSultDbContext context, UserManager<Utilisateur> userManager,IConfiguration configuration)
@@ -37,11 +39,13 @@ namespace CondorSult_Backend.Repositories
             _imageRepository = new Lazy<IImageRepository>(() => new
             ImageRepository(context));
 
-            _commentaireRepository = new Lazy<ICommentaireRepository>(() => new
-            CommentaireRepository(context));
+           _commentaireRepository = new Lazy<ICommentaireRepository>(() => new
+            CommentaireRepository(context)); 
 
             _pointVenteRepository = new Lazy<IPointVenteRepository>(() => new
             PointVenteRepository(context));
+
+            _blogRepository = new Lazy<IBlogRepository>(() => new BlogRepository(context));
 
             _authentication = new Lazy<IAuthentication>(() => new Authentication(userManager, configuration));
         }
@@ -52,6 +56,7 @@ namespace CondorSult_Backend.Repositories
         public IImageRepository Image => _imageRepository.Value;
         public ICommentaireRepository Commentaire => _commentaireRepository.Value;
         public IPointVenteRepository PointVente => _pointVenteRepository.Value;
+        public IBlogRepository Blog => _blogRepository.Value;
         public IAuthentication Authentication => _authentication.Value;
 
         public void SaveChanges()

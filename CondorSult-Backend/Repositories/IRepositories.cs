@@ -5,7 +5,7 @@ namespace CondorSult_Backend.Repositories
 {
     public interface IUtilisateurRepository
     {
-        
+        public Utilisateur getUserById(string id);
     }
 
     public interface IArticleRepository
@@ -23,6 +23,7 @@ namespace CondorSult_Backend.Repositories
     public interface ICategorieRepository
     {
         public IEnumerable<Categorie> GetAllCategories();
+        public void AddCategory(Categorie categorie);
     }
 
     public interface IImageRepository
@@ -33,9 +34,15 @@ namespace CondorSult_Backend.Repositories
     public interface ICommentaireRepository
     {
         public void AddCommentaire(Commentaire commentaire);
-    }
+    } 
     public interface IPointVenteRepository
     {
         public IEnumerable<PointVente> GetAllPointsVente();
+    }
+    public interface IBlogRepository
+    {
+        public void AddBlog(Blog blog);
+        public void RemoveBlog(int id);
+        public IEnumerable<Blog> GetAllBlogs();
     }
 }
