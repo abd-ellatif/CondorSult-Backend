@@ -1,8 +1,27 @@
+using CondorSult_Backend.Data;
+using CondorSult_Backend.Extensions;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<CondorSultDbContext>(options =>
+{
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+}
+                                                   );
+
+builder.Services.ConfigureRepositoryManager();
+
+builder.Services.AddAuthentication();
+
+builder.Services.ConfigureIdentity();
+builder.Services.ConfigureServices(builder.Configuration);
+builder.Services.ConfigureJWT(builder.Configuration);
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -18,6 +37,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
+app.UseCors("AllowSpecificOrigin");
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
